@@ -6,7 +6,9 @@ target 'UserList' do
   use_frameworks!
 
   # Pods for UserList
+  pod 'Alamofire'
   pod 'URLImage'
+
   target 'UserListTests' do
     inherit! :search_paths
     # Pods for testing

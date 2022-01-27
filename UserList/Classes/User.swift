@@ -12,7 +12,7 @@ struct User: Identifiable {
     let firstName: String
     let lastName: String
     let email: String
-    let age:Int
+    let age:Double
     let thumbnail: URL
     let image: URL
     let gender: String
