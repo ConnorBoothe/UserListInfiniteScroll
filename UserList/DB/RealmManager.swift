@@ -10,9 +10,13 @@ import RealmSwift
 
 class RealmManager: ObservableObject {
     private(set) var localRealm: Realm?
-    @Published private(set) var users: [UserRealm] = []
+    @Published var users = [UserRealm]()
     init(){
         openRealm()
+        
+        if let users = localRealm?.objects(UserRealm.self){
+            self.users = Array(users)
+        }
     }
     func openRealm(){
         do {
@@ -79,7 +83,7 @@ class RealmManager: ObservableObject {
             }
         }
     }
-    func deleteUser(id: ObjectId){
+    func deleteUser(id: ObjectId, searchText:String){
         if let localRealm = localRealm {
             do {
                 let userToDelete = localRealm.objects(UserRealm.self).filter(NSPredicate(format: "id == %@", id))
@@ -87,11 +91,14 @@ class RealmManager: ObservableObject {
                     try localRealm.write {
                         users = []
                         localRealm.delete(userToDelete)
-                        print("Deleted task with id \(id)")
-                        print(localRealm.objects(UserRealm.self).isInvalidated) //returning false, so object is still valid
-                        //time between delete and below function call is causing error
-                        getUsers()
-
+                        //repopulate list with filtered users
+                        if(searchText != "") {
+                            searchUsers(text: searchText)
+                        }
+                        else {
+                            //get all users if text == ""
+                            getUsers()
+                        }
                     }
                 } catch {
                     print("error deleting task with \(id)")

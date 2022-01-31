@@ -17,13 +17,15 @@ struct UserList: View {
     var body: some View {
         List {
             if #available(iOS 15.0, *) {
-                ForEach(realmManager.users, id:\.self) {
+                //supplying id:\.self here causes app to crash
+                //users conforms to protocol ObjectKeyIdentifiable, so no need to include id
+                ForEach(realmManager.users) {
                     user in
                     if !user.isInvalidated {
                         UserItem(user: user)
                             .swipeActions(edge: .trailing) {
                                 Button(role: .destructive){
-                                    realmManager.deleteUser(id: user.id)
+                                    realmManager.deleteUser(id: user.id, searchText: searchText)
                                 }
                                 label: {
                                     Label("Delete", systemImage: "trash")
