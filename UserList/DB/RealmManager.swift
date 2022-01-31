@@ -10,11 +10,11 @@ import RealmSwift
 
 class RealmManager: ObservableObject {
     private(set) var localRealm: Realm?
-    @Published var users = [UserRealm]()
+    @Published var users = [User]()
     init(){
         openRealm()
         
-        if let users = localRealm?.objects(UserRealm.self){
+        if let users = localRealm?.objects(User.self){
             self.users = Array(users)
         }
     }
@@ -33,7 +33,7 @@ class RealmManager: ObservableObject {
         if let localRealm = localRealm {
             do {
                 try localRealm.write {
-                    let user = UserRealm(value: ["firstName": firstName, "lastName": lastName, "email": email, "age": age,
+                    let user = User(value: ["firstName": firstName, "lastName": lastName, "email": email, "age": age,
                                                  "thumbnail": thumbnail, "image": image , "gender": gender, "country": country])
                     localRealm.add(user)
                     getUsers()
@@ -49,7 +49,7 @@ class RealmManager: ObservableObject {
         print("getting all users")
         if let localRealm = localRealm {
             do {
-                let allUsers = localRealm.objects(UserRealm.self)
+                let allUsers = localRealm.objects(User.self)
 //                    .sorted(byKeyPath: "firstName")
                 users = []
                 allUsers.forEach { user in
@@ -65,7 +65,7 @@ class RealmManager: ObservableObject {
         if let localRealm = localRealm {
             do {
                 if(text != "") {
-                    let allUsers = localRealm.objects(UserRealm.self)
+                    let allUsers = localRealm.objects(User.self)
                         .filter(NSPredicate(format: "firstName BEGINSWITH %@", text))
                         .sorted(byKeyPath: "firstName")
                     
@@ -86,7 +86,7 @@ class RealmManager: ObservableObject {
     func deleteUser(id: ObjectId, searchText:String){
         if let localRealm = localRealm {
             do {
-                let userToDelete = localRealm.objects(UserRealm.self).filter(NSPredicate(format: "id == %@", id))
+                let userToDelete = localRealm.objects(User.self).filter(NSPredicate(format: "id == %@", id))
                 guard !userToDelete.isEmpty else {return}
                     try localRealm.write {
                         users = []

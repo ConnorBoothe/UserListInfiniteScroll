@@ -9,7 +9,7 @@ import SwiftUI
 import URLImage
 
 struct UserItem: View {
-    var user: UserRealm;
+    var user: User;
     var body: some View {
             HStack{
                 NavigationLink(destination: UserProfile(user: user)){

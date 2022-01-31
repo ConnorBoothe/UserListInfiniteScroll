@@ -8,7 +8,7 @@
 import SwiftUI
 import URLImage
 struct UserProfile: View {
-    var user:UserRealm;
+    var user:User;
     @EnvironmentObject var realmManager:RealmManager;
     var body: some View {
         VStack {
