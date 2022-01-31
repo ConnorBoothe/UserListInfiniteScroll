@@ -6,31 +6,29 @@
 //
 
 import SwiftUI
+import RealmSwift
+import Alamofire
 struct ContentView: View {
-    @EnvironmentObject var userList:UserList;
-    @State var dataRendered:Bool = false;
+    @StateObject var realmManager = RealmManager();
+    @State var searchText:String = ""
     var body: some View {
         NavigationView {
             VStack{
-                List {
-                    ForEach(self.userList.users) {
-                        UserItem(user: $0)
-                    }
-                    //prevent onAppear event from firing on initial render
-                    if(self.dataRendered){
-                        Rectangle()
-                            .background(Color.white)
-                            .foregroundColor(Color.white)
-                        .onAppear {
-                           self.userList.getUsers()
-                        }
-                    } 
+                VStack{
+                    SearchBar(searchText: $searchText)
+                        .environmentObject(realmManager)
                 }
-                .onAppear{
-                    self.dataRendered = true;
+                .padding(10)
+                UserList(searchText: searchText)
+                    .environmentObject(realmManager)
+            }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Image(systemName: "person.circle.fill")
+                        .font(.system(size: 25))
+                        .foregroundColor(Color(.systemGray))
                 }
             }
-            .navigationTitle(String("User List"))
             .navigationBarTitleDisplayMode(.inline)
         }
     }

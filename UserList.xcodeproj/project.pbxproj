@@ -20,7 +20,13 @@
 		F192EF00272F1FB400343424 /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F192EEFF272F1FB400343424 /* UserItem.swift */; };
 		F192EF02272F1FC900343424 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F192EF01272F1FC900343424 /* UserProfile.swift */; };
 		F192EF04272F20C000343424 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F192EF03272F20C000343424 /* User.swift */; };
-		F192EF06272F21BF00343424 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F192EF05272F21BF00343424 /* UserList.swift */; };
+		F192EF06272F21BF00343424 /* GetUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F192EF05272F21BF00343424 /* GetUsers.swift */; };
+		F1A5642027A2F48700074943 /* UserListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A5641F27A2F48700074943 /* UserListResponse.swift */; };
+		F1E3412827A63433004BD3D3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E3412727A63433004BD3D3 /* RealmManager.swift */; };
+		F1E3412A27A6346A004BD3D3 /* UserSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E3412927A6346A004BD3D3 /* UserSchema.swift */; };
+		F1E3412D27A76F06004BD3D3 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E3412C27A76F06004BD3D3 /* UserList.swift */; };
+		F1E3413027A787CD004BD3D3 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E3412F27A787CD004BD3D3 /* SearchBar.swift */; };
+		F1E3413227A79051004BD3D3 /* SearchUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E3413127A79051004BD3D3 /* SearchUsers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +69,13 @@
 		F192EEFF272F1FB400343424 /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserItem.swift; sourceTree = "<group>"; };
 		F192EF01272F1FC900343424 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		F192EF03272F20C000343424 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		F192EF05272F21BF00343424 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
+		F192EF05272F21BF00343424 /* GetUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUsers.swift; sourceTree = "<group>"; };
+		F1A5641F27A2F48700074943 /* UserListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListResponse.swift; sourceTree = "<group>"; };
+		F1E3412727A63433004BD3D3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		F1E3412927A6346A004BD3D3 /* UserSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSchema.swift; sourceTree = "<group>"; };
+		F1E3412C27A76F06004BD3D3 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
+		F1E3412F27A787CD004BD3D3 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		F1E3413127A79051004BD3D3 /* SearchUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUsers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +154,10 @@
 		F192EED1272F1E9A00343424 /* UserList */ = {
 			isa = PBXGroup;
 			children = (
+				F1E3412E27A77028004BD3D3 /* AlamoFiles */,
+				F1E3412627A6341C004BD3D3 /* DB */,
 				F192EEFD272F1F6000343424 /* Classes */,
+				F1E3412B27A76EBF004BD3D3 /* Components */,
 				F192EEFC272F1F5300343424 /* Views */,
 				F192EED2272F1E9A00343424 /* UserListApp.swift */,
 				F192EED6272F1E9E00343424 /* Assets.xcassets */,
@@ -180,8 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				F192EED4272F1E9A00343424 /* ContentView.swift */,
-				F192EEFF272F1FB400343424 /* UserItem.swift */,
 				F192EF01272F1FC900343424 /* UserProfile.swift */,
+				F1E3413127A79051004BD3D3 /* SearchUsers.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -190,9 +205,36 @@
 			isa = PBXGroup;
 			children = (
 				F192EF03272F20C000343424 /* User.swift */,
-				F192EF05272F21BF00343424 /* UserList.swift */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		F1E3412627A6341C004BD3D3 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				F1E3412927A6346A004BD3D3 /* UserSchema.swift */,
+				F1E3412727A63433004BD3D3 /* RealmManager.swift */,
+			);
+			path = DB;
+			sourceTree = "<group>";
+		};
+		F1E3412B27A76EBF004BD3D3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				F192EEFF272F1FB400343424 /* UserItem.swift */,
+				F1E3412C27A76F06004BD3D3 /* UserList.swift */,
+				F1E3412F27A787CD004BD3D3 /* SearchBar.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		F1E3412E27A77028004BD3D3 /* AlamoFiles */ = {
+			isa = PBXGroup;
+			children = (
+				F1A5641F27A2F48700074943 /* UserListResponse.swift */,
+				F192EF05272F21BF00343424 /* GetUsers.swift */,
+			);
+			path = AlamoFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -433,11 +475,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1E3412D27A76F06004BD3D3 /* UserList.swift in Sources */,
 				F192EF02272F1FC900343424 /* UserProfile.swift in Sources */,
-				F192EF06272F21BF00343424 /* UserList.swift in Sources */,
+				F1E3413227A79051004BD3D3 /* SearchUsers.swift in Sources */,
+				F192EF06272F21BF00343424 /* GetUsers.swift in Sources */,
+				F1E3412827A63433004BD3D3 /* RealmManager.swift in Sources */,
+				F1E3412A27A6346A004BD3D3 /* UserSchema.swift in Sources */,
+				F1A5642027A2F48700074943 /* UserListResponse.swift in Sources */,
 				F192EED5272F1E9A00343424 /* ContentView.swift in Sources */,
 				F192EED3272F1E9A00343424 /* UserListApp.swift in Sources */,
 				F192EF04272F20C000343424 /* User.swift in Sources */,
+				F1E3413027A787CD004BD3D3 /* SearchBar.swift in Sources */,
 				F192EF00272F1FB400343424 /* UserItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

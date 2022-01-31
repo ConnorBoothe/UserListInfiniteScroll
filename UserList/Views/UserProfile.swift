@@ -8,16 +8,17 @@
 import SwiftUI
 import URLImage
 struct UserProfile: View {
-    @Binding var user:User;
+    var user:UserRealm;
+    @EnvironmentObject var realmManager:RealmManager;
     var body: some View {
         VStack {
-            URLImage(url: self.user.image) { image in
+            URLImage(url: URL(string: self.user.image)!) { image in
                 image
                     .resizable()
                     .frame(width: 100, height: 100)
                     .aspectRatio(1, contentMode: .fit)
             }
-            Text(self.user.firstName + "  " + self.user.lastName)
+            Text(self.user.firstName + " " + self.user.lastName)
                 .bold()
             Text("\(self.user.age) years old")
             Text("User Details")

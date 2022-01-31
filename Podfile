@@ -7,6 +7,7 @@ target 'UserList' do
 
   # Pods for UserList
   pod 'Alamofire'
+  pod 'RealmSwift'
   pod 'URLImage'
 
   target 'UserListTests' do
