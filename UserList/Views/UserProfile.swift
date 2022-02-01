@@ -10,6 +10,7 @@ import URLImage
 struct UserProfile: View {
     var user:User;
     @EnvironmentObject var realmManager:RealmManager;
+    @State var showEditUser = false;
     var body: some View {
         VStack {
             URLImage(url: URL(string: self.user.image)!) { image in
@@ -20,7 +21,7 @@ struct UserProfile: View {
             }
             Text(self.user.firstName + " " + self.user.lastName)
                 .bold()
-            Text("\(self.user.age) years old")
+            Text("\(Int(self.user.age)) years old")
             Text("User Details")
                 .font(.system(size: 22))
                 .bold()
@@ -50,6 +51,13 @@ struct UserProfile: View {
             }.frame(alignment: .center)
             Spacer()
             
+        }
+        .navigationBarItems(trailing: EditUserButton(showEditUser: self.$showEditUser))
+        .onAppear{
+            realmManager.setCurrentUser(user: user)
+        }
+        .sheet(isPresented: $showEditUser){
+            EditUser()
         }
         Spacer()
     }

@@ -11,6 +11,7 @@ import RealmSwift
 class RealmManager: ObservableObject {
     private(set) var localRealm: Realm?
     @Published var users = [User]()
+    @Published var currentUser:User?
     init(){
         openRealm()
         
@@ -115,5 +116,41 @@ class RealmManager: ObservableObject {
                 print("error deleting task with \(error)")
             }
         }
+    }
+    func updateUser(id: ObjectId, firstName: String, lastName: String, email: String,
+                    country:String, age: Double, gender:String){
+        print(id)
+        print(firstName)
+        print(lastName)
+        print(email)
+        print(country)
+        print(gender)
+        print(age)
+        if let localRealm = localRealm {
+            DispatchQueue(label: "backgroundThread", qos: .background).async{
+                //need to recreate realm object each time thread changes
+                do {
+                    let userToUpdate = localRealm.objects(User.self).filter(NSPredicate(format: "id == %@", id))
+                    guard !userToUpdate.isEmpty else {return}
+                    
+                        try localRealm.write {
+                            userToUpdate[0].firstName = firstName
+                            userToUpdate[0].lastName = lastName
+                            userToUpdate[0].email = email
+                            userToUpdate[0].country = country
+                            userToUpdate[0].age = age
+                            userToUpdate[0].gender = gender
+                            self.getUsers()
+                            print("Updatedn task with id \(id)")
+                        }
+
+                } catch {
+                    print("Error updating task \(id) to Realm \(error)")
+                }
+            }
+        }
+    }
+    func setCurrentUser(user: User){
+        self.currentUser = user
     }
 }

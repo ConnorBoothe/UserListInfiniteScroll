@@ -8,10 +8,12 @@
 import SwiftUI
 @main
 struct UserListApp: App {
-    
+    @StateObject var realmManager:RealmManager = RealmManager()
     var body: some Scene {
+        
         WindowGroup {
             ContentView()
+                .environmentObject(realmManager)
         }
     }
 }
