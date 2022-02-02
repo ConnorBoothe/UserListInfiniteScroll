@@ -24,13 +24,14 @@ struct EditUser: View {
                     .frame(maxWidth:.infinity, alignment: .center)
                     .padding(5)
                     .padding(.bottom, 20)
+                    .padding(.top, 20)
                 UpdateUserField(label: "First Name", value: $firstName)
                 UpdateUserField(label: "Last Name", value: $lastName)
                 UpdateUserField(label: "Email", value: $email)
                 UpdateUserField(label: "Country", value: $country)
                 VStack{
                     Text("Gender")
-                        
+                        .foregroundColor(Color(.systemGray))
                         .padding(.leading, 10)
                     Picker("Select Gender", selection: $gender){
                         Text("Male").tag(0)
@@ -43,8 +44,13 @@ struct EditUser: View {
                 .padding(.top, 10)
                 .padding(5)
                 .background(Color(.systemGray6))
+                Rectangle()
+                    .padding(.bottom, 0)
+                    .frame(height: 0.5, alignment: .bottom)
+                    .foregroundColor(Color.gray)
                 VStack{
                     Text("Age")
+                        .foregroundColor(Color(.systemGray))
                         .padding(.leading, 10)
                     Picker("Select Age", selection: $age) {
                         ForEach(1...100, id: \.self) {
@@ -84,6 +90,7 @@ struct EditUser: View {
                 .padding(20)
             }
         }
+        .background(Color(.systemGray6))
         .frame(maxWidth:.infinity, alignment: .leading)
         .onAppear{
             if(realmManager.currentUser != nil){

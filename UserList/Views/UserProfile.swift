@@ -58,13 +58,11 @@ struct UserProfile: View {
         }
         .sheet(isPresented: $showEditUser){
             EditUser()
+                .ignoresSafeArea()
+                .background(Color(.systemGray6))
         }
+        
+        
         Spacer()
     }
 }
-
-//struct UserProfile_Previews: PreviewProvider {
-//    static var previews: some View {
-//        UserProfile()
-//    }
-//}

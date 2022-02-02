@@ -15,14 +15,10 @@ struct EditUserButton: View {
             self.showEditUser.toggle()
         })
         {
-            Text("Edit")
-                .font(.system(size: 15)).bold()
+            Image(systemName: "gear")
+                .font(.system(size: 15))
                 .padding(5)
-                .background(Color.blue)
-                .cornerRadius(10)
-                .foregroundColor(Color.white)
-                
-                
+                .foregroundColor(Color.black)
         }
     }
 }

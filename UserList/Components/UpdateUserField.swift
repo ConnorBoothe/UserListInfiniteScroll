@@ -15,6 +15,7 @@ struct UpdateUserField: View {
             Text(label)
                 .frame(maxWidth:.infinity, alignment: .leading)
                 .padding(.leading, 10)
+                .foregroundColor(Color(.systemGray))
             TextField(value, text: $value)
                 .padding(.leading, 10)
         }
