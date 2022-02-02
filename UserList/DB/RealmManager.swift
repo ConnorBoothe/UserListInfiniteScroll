@@ -10,13 +10,20 @@ import RealmSwift
 
 class RealmManager: ObservableObject {
     private(set) var localRealm: Realm?
+    var notificationToken: NotificationToken?
     @Published var users = [User]()
-    @Published var currentUser:User?
+
     init(){
         openRealm()
-        
         if let users = localRealm?.objects(User.self){
             self.users = Array(users)
+        }
+        
+        //observe the realm for changes and react
+        notificationToken = localRealm!.observe { notification, realm in
+            if(notification == .didChange){
+                self.getUsers()
+            }
         }
     }
     func openRealm(){
@@ -39,10 +46,6 @@ class RealmManager: ObservableObject {
                         let user = User(value: ["firstName": firstName, "lastName": lastName, "email": email, "age": age,
                                                      "thumbnail": thumbnail, "image": image , "gender": gender, "country": country])
                         realm.add(user)
-                        DispatchQueue.main.async {
-                            self.getUsers()
-                        }
-                        
                         print("added new task: \(user)")
                     }
                 }
@@ -51,28 +54,12 @@ class RealmManager: ObservableObject {
                 }
             }
         }
-        //only run if localRealm is set
-//        if let localRealm = localRealm {
-//            do {
-//                try localRealm.write {
-//                    let user = User(value: ["firstName": firstName, "lastName": lastName, "email": email, "age": age,
-//                                                 "thumbnail": thumbnail, "image": image , "gender": gender, "country": country])
-//                    localRealm.add(user)
-//                    getUsers()
-//                    print("added new task: \(user)")
-//                }
-//            }
-//            catch {
-//                print("Error adding Realm: \(error)")
-//            }
-//        }
     }
     func getUsers(){
-        print("getting all users")
+        //fetch users to the main thread for UI use
         if let localRealm = localRealm {
             do {
                 let allUsers = localRealm.objects(User.self)
-//                    .sorted(byKeyPath: "firstName")
                 users = []
                 allUsers.forEach { user in
                     users.append(user)
@@ -81,9 +68,6 @@ class RealmManager: ObservableObject {
         }
     }
     func searchUsers(text: String){
-        print("getting search users")
-        print("text")
-        print(text)
         if let localRealm = localRealm {
             do {
                 if(text != "") {
@@ -92,8 +76,6 @@ class RealmManager: ObservableObject {
                         .sorted(byKeyPath: "firstName")
                     
                      users = []
-                     print("all users")
-                     print(allUsers)
                      allUsers.forEach { user in
                          print(user.firstName)
                          users.append(user)
@@ -114,50 +96,14 @@ class RealmManager: ObservableObject {
                     let userToDelete = realm.objects(User.self).filter(NSPredicate(format: "id == %@", id))
                     guard !userToDelete.isEmpty else {return}
                         try realm.write {
-                            DispatchQueue.main.async {
-                                self.users = []
-                            }
-                            print("delete user")
                             realm.delete(userToDelete)
-//                            DispatchQueue.main.async {
-////                                self.getUsers()
-//                                //repopulate list with filtered users
-////                                if(searchText != "") {
-////                                    self.searchUsers(text: searchText)
-////                                }
-////                                else {
-////                                    //get all users if text == ""
-////                                    self.getUsers()
-////                                }
-//                            }
-                            
                         }
                     } catch {
                         print("error deleting task with \(id)")
                     }
             }
         }
-//        if let localRealm = localRealm {
-//            do {
-//                let userToDelete = localRealm.objects(User.self).filter(NSPredicate(format: "id == %@", id))
-//                guard !userToDelete.isEmpty else {return}
-//                    try localRealm.write {
-//                        users = []
-//                        localRealm.delete(userToDelete)
-//                        //repopulate list with filtered users
-//                        if(searchText != "") {
-//                            searchUsers(text: searchText)
-//                        }
-//                        else {
-//                            //get all users if text == ""
-//                            getUsers()
-//                        }
-//                    }
-//                } catch {
-//                    print("error deleting task with \(id)")
-//                }
-//            }
-        }
+    }
     func deleteAll(){
         if let localRealm = localRealm {
             do {
@@ -188,13 +134,7 @@ class RealmManager: ObservableObject {
                             userToUpdate[0].country = country
                             userToUpdate[0].age = age
                             userToUpdate[0].gender = gender
-                            print("Updatedtask with id \(id)")
-                            //retrieve users in main thread
-                            DispatchQueue.main.async {
-                                print("back to main thread")
-                                self.getUsers()
-                            }
-                            
+                            print("Updated task with id \(id)")
                         }
 
                 } catch {
@@ -202,8 +142,5 @@ class RealmManager: ObservableObject {
                 }
                 }
             }
-    }
-    func setCurrentUser(user: User){
-        self.currentUser = user
     }
 }

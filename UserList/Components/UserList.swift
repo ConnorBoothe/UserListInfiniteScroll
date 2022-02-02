@@ -54,11 +54,11 @@ struct UserList: View {
         }
         .onAppear{
             print("on appear")
+//            realmManager.setCurrentUser(user: nil)
             UITableViewCell.appearance().backgroundColor = UIColor.clear
             if(self.searchText == ""){
                 realmManager.getUsers()
             }
-            
             self.dataRendered = true
             if(realmManager.users.count == 0) {
                 getUsers.getUsersWithAlamofire(realmManager: realmManager)

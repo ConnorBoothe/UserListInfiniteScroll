@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 struct UpdateUserField: View {
     var label:String
     @Binding var value:String
@@ -23,8 +22,6 @@ struct UpdateUserField: View {
         .padding(.top, 10)
         .padding(5)
         .background(Color(.systemGray6))
-        
-       
         Rectangle()
             .padding(.bottom, 0)
             .frame(height: 0.5, alignment: .bottom)
