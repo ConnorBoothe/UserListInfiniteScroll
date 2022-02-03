@@ -117,6 +117,8 @@ class RealmManager: ObservableObject {
     }
     func updateUser(id: ObjectId, firstName: String, lastName: String, email: String,
                     country:String, age: Double, gender:String){
+        print(age)
+        print(gender)
             DispatchQueue(label: "background").async{
                 autoreleasepool {
                     print("update in bg thread")

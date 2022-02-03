@@ -14,9 +14,10 @@ struct EditUser: View {
     @State var lastName: String = ""
     @State var email: String = ""
     @State var country: String = ""
-    @State var age: Double = 45.00
-    @State var gender: String = "Female"
-    
+    @State var age: Int = 0
+    @State var gender: String = ""
+    var genderArray = ["Male", "Female"]
+    var ageArray:Array = [20...90]
     var id: ObjectId
     var firstName1: String
     var lastName1: String
@@ -41,8 +42,9 @@ struct EditUser: View {
                         .foregroundColor(Color(.systemGray))
                         .padding(.leading, 10)
                     Picker("Select Gender", selection: $gender){
-                        Text("Male").tag(0)
-                        Text("Female").tag(1)
+                        ForEach(genderArray, id:\.self) { item in
+                            Text(item)
+                        }
                     }
                     .padding(.leading, 10)
                 }
@@ -51,6 +53,7 @@ struct EditUser: View {
                 .padding(.top, 10)
                 .padding(5)
                 .background(Color(.systemGray6))
+           
                 Rectangle()
                     .padding(.bottom, 0)
                     .frame(height: 0.5, alignment: .bottom)
@@ -60,8 +63,8 @@ struct EditUser: View {
                         .foregroundColor(Color(.systemGray))
                         .padding(.leading, 10)
                     Picker("Select Age", selection: $age) {
-                        ForEach(1...100, id: \.self) {
-                            Text("\($0)").tag($0)
+                        ForEach(20...90, id: \.self) { option in
+                            Text("\(option)")
                         }
                     }
                     .padding(.leading, 10)
@@ -72,15 +75,17 @@ struct EditUser: View {
                 .padding(5)
                 .background(Color(.systemGray6))
                 VStack {
+                    
                     Button(action: {
                         print("update")
+                        print(age)
                         realmManager.updateUser(
                             id: id,
                             firstName: firstName,
                             lastName: lastName,
                             email: email,
                             country: country,
-                            age: age,
+                            age: Double(age),
                             gender: gender
                         )
                         presentationMode.wrappedValue.dismiss()
@@ -104,7 +109,7 @@ struct EditUser: View {
                 self.lastName = lastName1
                 self.email = email1
                 self.country = country1
-                self.age = age1
+                self.age = Int(age1)
                 self.gender = gender1
             
         }

@@ -61,16 +61,11 @@ struct UserProfile: View {
             
         }
         .navigationBarItems(trailing: EditUserButton(showEditUser: self.$showEditUser))
-//        .onAppear{
-//            realmManager.setCurrentUser(user: user)
-//        }
         .sheet(isPresented: $showEditUser){
             EditUser(id: id, firstName1: firstName, lastName1: lastName, email1: email, country1: country, age1: age, gender1: gender)
-                .ignoresSafeArea()
                 .background(Color(.systemGray6))
+                .ignoresSafeArea()
         }
-        
-        
         Spacer()
     }
 }
