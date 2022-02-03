@@ -26,6 +26,9 @@ class RealmManager: ObservableObject {
             }
         }
     }
+    /**
+     Opens a local realm object on the main thread
+     */
     func openRealm(){
         do {
             let config = Realm.Configuration(schemaVersion: 1)
@@ -35,6 +38,18 @@ class RealmManager: ObservableObject {
             print("Error opening Realm: \(error)")
         }
     }
+    /**
+    Add User to realm in a background thread
+     Parameters:
+        - firstName: String,
+        - lastName: String,
+        - email: String,
+        - age: Double,
+        - thumbnail: String,
+        - image: String,
+        - gender: String,
+        - country: String
+     */
     func addUser(firstName:String, lastName:String, email:String, age:Double,
                  thumbnail:String, image:String, gender:String, country:String) {
         //works, but list is not updating properly
@@ -55,6 +70,10 @@ class RealmManager: ObservableObject {
             }
         }
     }
+    /**
+     Get user objects
+        Parameters:
+     */
     func getUsers(){
         //fetch users to the main thread for UI use
         if let localRealm = localRealm {
@@ -67,6 +86,10 @@ class RealmManager: ObservableObject {
             }
         }
     }
+    /**
+     Search Users
+     - text: Search string,
+     */
     func searchUsers(text: String){
         if let localRealm = localRealm {
             do {
@@ -87,6 +110,12 @@ class RealmManager: ObservableObject {
             }
         }
     }
+    /**
+     Delete users from realm
+        - id: ObjectId of user to delete
+        - searchText: Search string to pass if text is in the search bar during deletion
+        
+     */
     func deleteUser(id: ObjectId, searchText:String){
         //works, but flashes empty array then populates
         DispatchQueue(label: "background").async{
@@ -115,10 +144,21 @@ class RealmManager: ObservableObject {
             }
         }
     }
+    /**
+    Update user object in a background thread
+     Parameters:
+        - id: ObjectId
+        - firstName: String,
+        - lastName: String,
+        - email: String,
+        - age: Double,
+        - thumbnail: String,
+        - image: String,
+        - gender: String,
+        - country: String
+     */
     func updateUser(id: ObjectId, firstName: String, lastName: String, email: String,
                     country:String, age: Double, gender:String){
-        print(age)
-        print(gender)
             DispatchQueue(label: "background").async{
                 autoreleasepool {
                     print("update in bg thread")
