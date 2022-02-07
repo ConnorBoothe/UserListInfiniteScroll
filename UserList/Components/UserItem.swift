@@ -12,7 +12,7 @@ struct UserItem: View {
     var user: User;
     var body: some View {
             HStack{
-                NavigationLink(destination: UserProfile(id: user.id, image: user.image, firstName: user.firstName, lastName: user.lastName, email: user.email, country: user.country, age: user.age, gender: user.gender)){
+                NavigationLink(destination: UserProfile(user: UserStruct(id: user.id,  firstName: user.firstName, lastName: user.lastName, email: user.email, age: user.age, thumbnail: user.thumbnail, image: user.image, gender: user.gender, country: user.country, follow: user.follow))){
                     if(URL(string: user.thumbnail) != nil){
                         URLImage(url: URL(string: user.thumbnail)!) { image in
                             image

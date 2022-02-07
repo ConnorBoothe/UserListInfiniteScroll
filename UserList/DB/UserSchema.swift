@@ -18,4 +18,5 @@ class User: Object, ObjectKeyIdentifiable {
     @Persisted var image: String = ""
     @Persisted var gender: String = ""
     @Persisted var country: String = ""
+    @Persisted var follow: Bool? = false
 }

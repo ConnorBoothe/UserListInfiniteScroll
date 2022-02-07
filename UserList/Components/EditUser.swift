@@ -86,7 +86,9 @@ struct EditUser: View {
                             email: email,
                             country: country,
                             age: Double(age),
-                            gender: gender
+                            gender: gender,
+                            follow: false
+                            
                         )
                         presentationMode.wrappedValue.dismiss()
                     }){

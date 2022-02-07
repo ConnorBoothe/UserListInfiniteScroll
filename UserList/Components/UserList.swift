@@ -13,9 +13,13 @@ struct UserList: View {
     var searchText:String
     @EnvironmentObject var realmManager:RealmManager;
     @State var dataRendered:Bool = false;
+    @State var usersToShow:Int = 0;
     var getUsers = GetUsers()
     var body: some View {
+        
+       
         List {
+            UserPicker(usersToShow: $usersToShow)
             if #available(iOS 15.0, *) {
                 //supplying id:\.self here causes app to crash
                 //users conforms to protocol ObjectKeyIdentifiable, so no need to include id
@@ -47,7 +51,7 @@ struct UserList: View {
             .background(Color.white)
             .foregroundColor(Color.white)
             .onAppear {
-                if(self.dataRendered && self.searchText == ""){
+                if(self.dataRendered && self.searchText == "" && usersToShow == 0){
                     getUsers.getUsersWithAlamofire(realmManager: realmManager)
                 }
             }
@@ -56,13 +60,14 @@ struct UserList: View {
             print("on appear")
 //            realmManager.setCurrentUser(user: nil)
             UITableViewCell.appearance().backgroundColor = UIColor.clear
-            if(self.searchText == ""){
+            if(self.searchText == "" && usersToShow == 0){
                 realmManager.getUsers()
             }
             self.dataRendered = true
-            if(realmManager.users.count == 0) {
+            if(realmManager.users.count == 0 ) {
                 getUsers.getUsersWithAlamofire(realmManager: realmManager)
             }
+            print(realmManager.users)
         }
     }
 }

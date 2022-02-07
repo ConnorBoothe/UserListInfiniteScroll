@@ -31,7 +31,7 @@ class RealmManager: ObservableObject {
      */
     func openRealm(){
         do {
-            let config = Realm.Configuration(schemaVersion: 1)
+            let config = Realm.Configuration(schemaVersion: 2)
             Realm.Configuration.defaultConfiguration = config
             localRealm = try Realm()
         } catch {
@@ -59,7 +59,7 @@ class RealmManager: ObservableObject {
                 do {
                     try realm.write {
                         let user = User(value: ["firstName": firstName, "lastName": lastName, "email": email, "age": age,
-                                                     "thumbnail": thumbnail, "image": image , "gender": gender, "country": country])
+                                                "thumbnail": thumbnail, "image": image , "gender": gender, "country": country, "follow": false])
                         realm.add(user)
                         print("added new task: \(user)")
                     }
@@ -133,6 +133,19 @@ class RealmManager: ObservableObject {
             }
         }
     }
+    func getFollowing(){
+        //fetch users to the main thread for UI use
+        if let localRealm = localRealm {
+            do {
+                let followingUsers = localRealm.objects(User.self).filter(NSPredicate(format: "follow == %@", NSNumber(value: true)))
+                users = []
+                followingUsers.forEach { user in
+                    users.append(user)
+                    print(user)
+                }
+            }
+        }
+    }
     func deleteAll(){
         if let localRealm = localRealm {
             do {
@@ -158,7 +171,8 @@ class RealmManager: ObservableObject {
         - country: String
      */
     func updateUser(id: ObjectId, firstName: String, lastName: String, email: String,
-                    country:String, age: Double, gender:String){
+                    country:String, age: Double, gender: String, follow: Bool){
+        
             DispatchQueue(label: "background").async{
                 autoreleasepool {
                     print("update in bg thread")
@@ -176,6 +190,7 @@ class RealmManager: ObservableObject {
                             userToUpdate[0].country = country
                             userToUpdate[0].age = age
                             userToUpdate[0].gender = gender
+                            userToUpdate[0].follow = follow
                             print("Updated task with id \(id)")
                         }
 

@@ -11,25 +11,18 @@ import RealmSwift
 struct UserProfile: View {
     @EnvironmentObject var realmManager:RealmManager;
     @State var showEditUser = false;
-    var id: ObjectId
-    var image: String
-    var firstName:String
-    var lastName: String
-    var email: String
-    var country: String
-    var age: Double
-    var gender: String
+    var user: UserStruct
     var body: some View {
         VStack {
-            URLImage(url: URL(string: image)!) { image in
+            URLImage(url: URL(string: user.image)!) { image in
                 image
                     .resizable()
                     .frame(width: 100, height: 100)
                     .aspectRatio(1, contentMode: .fit)
             }
-            Text(firstName + " " + lastName)
+            Text(user.firstName + " " + user.lastName)
                 .bold()
-            Text("\(Int(age)) years old")
+            Text("\(Int(user.age)) years old")
             Text("User Details")
                 .font(.system(size: 22))
                 .bold()
@@ -39,19 +32,19 @@ struct UserProfile: View {
             VStack{
                 HStack{
                     Image(systemName: "envelope.fill")
-                    Text(email)
+                    Text(user.email)
                 }.frame(minWidth:0, maxWidth: 300, alignment: .leading)
                     .padding(.top, 5)
                     .padding(.bottom, 5)
                 HStack{
                     Image(systemName: "mappin.and.ellipse")
-                    Text(country)
+                    Text(user.country)
                 }.frame(minWidth:0, maxWidth: 300, alignment: .leading)
                     .padding(.top, 5)
                     .padding(.bottom, 5)
                 HStack{
                     Image(systemName: "person.fill")
-                    Text(gender)
+                    Text(user.gender)
 
                 }.frame(minWidth:0, maxWidth: 300, alignment: .leading)
                     .padding(.top, 5)
@@ -62,10 +55,14 @@ struct UserProfile: View {
         }
         .navigationBarItems(trailing: EditUserButton(showEditUser: self.$showEditUser))
         .sheet(isPresented: $showEditUser){
-            EditUser(id: id, firstName1: firstName, lastName1: lastName, email1: email, country1: country, age1: age, gender1: gender)
+            EditUser(id: user.id, firstName1: user.firstName, lastName1: user.lastName, email1: user.email, country1: user.country, age1: user.age, gender1: user.gender)
                 .background(Color(.systemGray6))
                 .ignoresSafeArea()
         }
         Spacer()
+        VStack{
+            FollowButton(user: user)
+        }
+        .padding()
     }
 }
